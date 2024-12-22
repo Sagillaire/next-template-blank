@@ -1,0 +1,86 @@
+.container {
+  gap: 15px;
+  margin: 20px 0;
+  display: flex;
+  user-select: none;
+  align-items: center;
+}
+
+.sliderContainer {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  background-color: #e0e0e0;
+  border-radius: 3px;
+}
+
+.valuesContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.inputLabel {
+  width: 60px;
+  border: none;
+  outline: none;
+  color: #555;
+  font-size: 14px;
+  text-align: center;
+  background-color: aquamarine;
+}
+
+.hidden {
+  opacity: 0;
+}
+
+.valueLabel {
+  font-size: 14px;
+  color: #555;
+  white-space: nowrap;
+}
+
+.track {
+  position: absolute;
+  height: 100%;
+  background-color: #007bff;
+  border-radius: 3px;
+}
+
+.trackLabel {
+  bottom: -22px;
+  left: -10px;
+  color: #555;
+  font-size: 10px;
+  position: absolute;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.trackLabelMax {
+  bottom: -17px;
+  left: -10px;
+  color: #555;
+  font-size: 10px;
+  text-align: center;
+  position: absolute;
+  white-space: nowrap;
+}
+
+.thumb {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  background-color: #fff;
+  border: 2px solid #007bff;
+  border-radius: 50%;
+  cursor: grab;
+  z-index: 2;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.thumb:active {
+  cursor: grabbing;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.8);
+}
