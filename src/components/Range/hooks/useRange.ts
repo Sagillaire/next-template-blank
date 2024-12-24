@@ -1,22 +1,12 @@
-"use client";
-import React, { useEffect, useRef, useState } from "react";
-import styles from "./Range.module.css";
+import { useEffect, useRef, useState } from "react";
+import { UseRangeLogicProps } from "../types";
 
-type Props = {
-  min: number;
-  max: number;
-  loading?: boolean;
-  isDecimal?: boolean; // Nueva propiedad para manejar decimales
-  onChangeRangeAction?: (minValue: number, maxValue: number) => void;
-};
-
-export const Range: React.FC<Props> = ({
+export const useRange = ({
   min,
   max,
-  loading,
-  isDecimal = true, // Valor predeterminado
+  isDecimal,
   onChangeRangeAction,
-}) => {
+}: UseRangeLogicProps) => {
   const [minValue, setMinValue] = useState(min);
   const [maxValue, setMaxValue] = useState(max);
   const [initialMin, setInitialMin] = useState(min);
@@ -24,8 +14,6 @@ export const Range: React.FC<Props> = ({
   const [isEditingMin, setIsEditingMin] = useState(false);
   const [isEditingMax, setIsEditingMax] = useState(false);
   const sliderRef = useRef<HTMLDivElement>(null);
-
-  console.log({ maxValue });
 
   const handleDrag = (
     e: MouseEvent,
@@ -71,10 +59,6 @@ export const Range: React.FC<Props> = ({
 
     document.addEventListener("mousemove", onMouseMove);
     document.addEventListener("mouseup", onMouseUp);
-  };
-
-  const formatValue = (value: number) => {
-    return isDecimal ? value.toFixed(2) : value.toString();
   };
 
   const handleLabelClick = (type: "min" | "max") => {
@@ -143,89 +127,18 @@ export const Range: React.FC<Props> = ({
     setInitialMin(min);
   }, [min, max]);
 
-  if (loading) {
-    return <h1>Loading...</h1>;
-  }
-
-  return (
-    <div className={styles.container}>
-      <div>
-        <span
-          className={styles.valueLabel}
-          onClick={() => handleLabelClick("min")}
-        >
-          {isEditingMin ? (
-            <input
-              className={styles.inputLabel}
-              type="number"
-              value={minValue}
-              onChange={(e) => handleInputChange(e, "min")}
-              onBlur={() => handleInputBlur("min", minValue.toString())}
-              onKeyPress={(e) => handleKeyPress(e, "min", minValue.toString())}
-              autoFocus
-            />
-          ) : (
-            `${formatValue(initialMin)} €`
-          )}
-        </span>
-      </div>
-
-      <div className={styles.sliderContainer} ref={sliderRef}>
-        <div
-          className={`${styles.track} ${(isEditingMax || isEditingMin) && styles.hidden}`}
-          style={{
-            left: `${((minValue - initialMin) / (initialMax - initialMin)) * 100}%`,
-            right: `${100 - ((maxValue - initialMin) / (initialMax - initialMin)) * 100}%`,
-          }}
-        >
-          <span className={styles.trackLabel}>
-            {`${formatValue(minValue)}`}
-          </span>
-        </div>
-        <div
-          className={styles.thumb}
-          style={{
-            left: `${((minValue - initialMin) / (initialMax - initialMin)) * 100}%`,
-          }}
-          onMouseDown={(e) =>
-            handleDrag(e as unknown as MouseEvent, "min", minValue)
-          }
-        ></div>
-        <div
-          className={styles.thumb}
-          style={{
-            left: `${((maxValue - initialMin) / (initialMax - initialMin)) * 100}%`,
-          }}
-          onMouseDown={(e) =>
-            handleDrag(e as unknown as MouseEvent, "max", maxValue)
-          }
-        >
-          <span className={styles.trackLabelMax}>
-            {`${formatValue(maxValue)}`}
-          </span>
-        </div>
-      </div>
-
-      <div>
-        <span
-          className={styles.valueLabel}
-          onClick={() => handleLabelClick("max")}
-        >
-          {isEditingMax ? (
-            <input
-              className={styles.inputLabel}
-              type="number"
-              value={maxValue}
-              onChange={(e) => handleInputChange(e, "max")}
-              onBlur={() => handleInputBlur("max", maxValue.toString())}
-              onKeyPress={(e) => handleKeyPress(e, "max", maxValue.toString())}
-              autoFocus
-            />
-          ) : (
-            `${formatValue(initialMax)} €`
-          )}
-        </span>
-      </div>
-    </div>
-  );
+  return {
+    handleLabelClick,
+    isEditingMax,
+    isEditingMin,
+    minValue,
+    maxValue,
+    handleInputBlur,
+    handleInputChange,
+    handleKeyPress,
+    initialMax,
+    sliderRef,
+    initialMin,
+    handleDrag,
+  };
 };

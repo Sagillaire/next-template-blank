@@ -3,5 +3,5 @@ import Page from "app/page";
 
 it("should render home page", () => {
   render(<Page />);
-  expect(screen.getByText("Hello, Next.js!")).toBeInTheDocument();
+  expect(screen.getByText("Mango Range Aplication")).toBeInTheDocument();
 });

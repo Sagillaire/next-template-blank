@@ -1,0 +1,19 @@
+.title {
+  margin: 20px 0;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.subtitile_container {
+  display: flex;
+  margin: 25px 0 0;
+  gap: 10px;
+}
+
+.subtitle {
+  margin: 0;
+}
+
+.loadingData {
+    text-align: center;
+}
